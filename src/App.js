@@ -16,12 +16,23 @@ function App() {
 
   async function handleAddRepository() {
     // TODO
+    const newRepository = {
+      "title": `Exercício React ${Date.now()}`,
+      "url": "http: //github.com/...",
+      "techs": ["React","css"]
+    }
+
+    const response = await api.post("repositories", newRepository);
+    
+    if(response.status === (201) || response.status === (200)){
+      setProjects([...projects, response.data]);
+    }
   }
 
   async function handleRemoveRepository(id) {
     const response = await api.delete(`repositories/${id}`);
 
-    if(response.status === 204){
+    if(response.status === 204 || response.status === (200)){
       const filtredProjects = projects.filter(project => project.id !== id);
       setProjects(filtredProjects);
     }
@@ -41,7 +52,9 @@ function App() {
       }
       </ul>
 
-      <button onClick={handleAddRepository}>Adicionar</button>
+      <button onClick={handleAddRepository}>
+        Adicionar
+      </button>
     </div>
   );
 }
